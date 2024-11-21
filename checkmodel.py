@@ -5,7 +5,7 @@ Created on Sat Oct 22 15:31:57 2022
 @author: tuann
 """
 from torchsummary import summary
-from models.Net import *
+from models.Net3 import *
 model = Net()
 model = model.cuda()
 print ("model")

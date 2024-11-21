@@ -7,7 +7,7 @@ Created on Fri Feb 10 17:25:35 2023
 import torch
 from ptflops import get_model_complexity_info
 from torchsummary import summary
-from models.Net import *
+from models.Net3 import *
 
 with torch.cuda.device(0):
       
