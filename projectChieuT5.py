@@ -29,7 +29,7 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
-from models.Group6Net import *
+from models.Net import *
 
 from models.cross_entropy import LabelSmoothingCrossEntropy
 import writeLogAcc as wA

@@ -2,7 +2,7 @@
 """
 Created on Thu Nov 14 14:40:28 2024
 
-@author: Group6
+@author: Group3
 """
 import torch
 import torch.nn as nn
