@@ -6,8 +6,10 @@ Created on Sat Oct 22 15:31:57 2022
 """
 from torchsummary import summary
 from models.Net3 import *
-model = Net()
-model = model.cuda()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+model = Net(3)
+model.to(device)
 print ("model")
 print (model)
 

@@ -8,6 +8,7 @@
 # và 02 fully connected layer
 # (FC(.)). Số lượng parameter từ khoảng 10M to 20M.:
 import torch.nn as nn
+import torch
 import torch.nn.functional as F
 
 class Net(nn.Module):

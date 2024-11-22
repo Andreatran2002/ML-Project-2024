@@ -37,7 +37,7 @@ import writeLogAcc as wA
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 # parser.add_argument('data', metavar='DIR',
 #                     help='path to dataset')
-parser.add_argument('-r', '--data', type=str, default='./dataset/dataset_ML_T5_78910', help='path to dataset')
+parser.add_argument('-r', '--data', type=str, default='./dataset', help='path to dataset')
 # parser.add_argument('--arch', '-a', metavar='ARCH', default='MAFCV1',
 # #parser.add_argument('--arch', '-a', metavar='ARCH', default='',
 #                     choices=model_names,
