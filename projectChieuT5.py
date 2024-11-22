@@ -9,7 +9,7 @@ import os
 #os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1,2"  # specify which GPU(s) to be used
 #os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"  # specify which GPU(s) to be used
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"  # specify which GPU(s) to be used
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # specify which GPU(s) to be used
 
 import argparse
 
@@ -29,7 +29,9 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
-from models.Net3 import *
+#from models.Net1 import *
+from models.Net2 import *
+#from models.Net3 import *
 
 from models.cross_entropy import LabelSmoothingCrossEntropy
 import writeLogAcc as wA

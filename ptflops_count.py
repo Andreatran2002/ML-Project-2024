@@ -7,7 +7,11 @@ Created on Fri Feb 10 17:25:35 2023
 import torch
 from ptflops import get_model_complexity_info
 from torchsummary import summary
-from models.Net3 import *
+
+from models.Net1 import *
+#from models.Net2 import *
+#from models.Net3 import *
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # with torch.cuda.device(0):
