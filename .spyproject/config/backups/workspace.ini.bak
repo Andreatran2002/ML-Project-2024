@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['ptflops_count.py', 'models\\Net3.py', 'models\\Net2.py', 'models\\Net1.py', 'projectChieuT5.py', 'check.py', 'checkmodel.py']
+recent_files = ['ptflops_count.py', 'models\\Net1.py', 'projectChieuT5.py', 'checkmodel.py', 'checkpoints\\Pig_Chicken_Horse_\\Pig_Chicken_Horse.txt']
 
 [main]
 version = 0.2.0

@@ -29,8 +29,8 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
-#from models.Net1 import *
-from models.Net2 import *
+from models.Net1 import *
+#from models.Net2 import *
 #from models.Net3 import *
 
 from models.cross_entropy import LabelSmoothingCrossEntropy
@@ -46,7 +46,7 @@ parser.add_argument('-r', '--data', type=str, default='./dataset', help='path to
 #                     help='model architecture: ' +
 #                         ' | '.join(model_names) +
 #                         ' (default: MAFCV1)')
-parser.add_argument('-j', '--workers', default=16, type=int, metavar='N',
+parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
 parser.add_argument('--epochs', default=100, type=int, metavar='N',
                     help='number of total epochs to run')
@@ -446,8 +446,12 @@ def accuracy(output, target, topk=(1,)):
 
 
 def data_save(root, file):
+    #if not os.path.exists(root):
+    #    os.mknod(root)
     if not os.path.exists(root):
-        os.mknod(root)
+        # Tạo file mới nếu chưa tồn tại
+        with open(root, 'w') as f:
+            pass  # Tạo một file rỗng
     file_temp = open(root, 'r')
     lines = file_temp.readlines()
     if not lines:

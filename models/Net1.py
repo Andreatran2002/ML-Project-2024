@@ -23,21 +23,26 @@ class Net(nn.Module):
 
         # 10 conv3x3 layers (32 filters each)
         ###
-        self.conv3_1 = nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1) 
-        self.conv3_1_1 = nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1) 
+        self.conv3_1 = nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1) 
+        self.conv3_1_1 = nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1) 
         ###
-        self.conv3_2 = nn.Conv2d(64, 96, kernel_size=3, stride=1, padding=1)
-        ###
-        self.conv3_3 = nn.Conv2d(96, 128, kernel_size=3, stride=2, padding=1)
-        self.conv3_3_1 = nn.Conv2d(96, 128, kernel_size=3, stride=2, padding=1)
-        ##
-        self.conv3_4 = nn.Conv2d(256, 384, kernel_size=3, stride=1, padding=1)
-        self.conv3_4_1 = nn.Conv2d(256, 384, kernel_size=3, stride=1, padding=1)
+        self.conv3_2 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
+        self.conv3_2_2 = nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1)
 
         ##
-        self.conv3_5 = nn.Conv2d(384, 512, kernel_size=3, stride=1, padding=1)
-        self.conv3_6 = nn.Conv2d(512, 768, kernel_size=3, stride=1, padding=1)
-        self.conv3_7 = nn.Conv2d(768, 1024, kernel_size=3, stride=1, padding=1)
+        self.conv3_3 = nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1)
+        self.conv5_3 = nn.Conv2d(128, 256, kernel_size=5, stride=1, padding=2)
+
+        ##
+        self.conv3_4 = nn.Conv2d(256, 128, kernel_size=3, stride=1, padding=1)
+        self.conv5_4 = nn.Conv2d(256, 128, kernel_size=5, stride=1, padding=2)
+        ##
+        self.conv3_6 = nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1)
+        self.conv5_6 = nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1)
+        #
+        self.conv3_7 = nn.Conv2d(256,512 , kernel_size=3, stride=1, padding=1)
+        self.conv5_7 = nn.Conv2d(256,512 , kernel_size=5, stride=1, padding=2)
+        self.conv3_8 = nn.Conv2d(512,512 , kernel_size=3, stride=1, padding=1)
 
         # Pooling layers
         self.maxpool1 = nn.MaxPool2d(2, 2)
@@ -52,28 +57,34 @@ class Net(nn.Module):
     def forward(self, x):
         x = self.initial_conv(x)  # 32 channels [32,224,224]  
         x = self.conv_down_1(x)  # 32 channels [32,112,112]    
+        x = self.conv_down_2(x)  # 32 channels [32,56,56]    --------- [CONV3-1/10] 
+
         x1 = F.relu(self.conv3_1(x))    # [32, 56, 56] --------- [CONV3-2/10]  
         x2 = F.relu(self.conv3_1_1(x))   # [32, 56, 56] --------- [CONV3-3/10] 
         x = torch.cat([x1, x2], dim=1) # [64, 56, 56] --------- [CAT-1/2]    
         x = self.maxpool1(x)   # [64, 28, 28]  --------- [MAX_POOL-1/1]
-        x = self.conv3_2(x)  # 32 channels [96,28,28] --------- [CONV3-4/10] 
-        x1 = F.relu(self.conv3_3(x))    # [128, 14, 14] --------- [CONV3-5/10] 
-        x2 = F.relu(self.conv3_3_1(x))   # [128, 14, 14] --------- [CONV3-6/10]  
+        x = self.conv3_2(x)  # 32 channels [128,28,28] --------- [CONV3-4/10] 
+        x = self.conv3_2_2(x)  # 32 channels [128,28,28] --------- [CONV3-5/10] 
 
-        x = torch.cat([x1, x2], dim=1) # [256, 14, 14] --------- [CAT-2/2]
-        path_1_s1 = F.relu(self.conv3_4(x)) # [384, 14, 14] --------- [CONV3-7/10] 
-        path_2_s1 = F.relu(self.conv3_4_1(x)) # [384, 14, 14] --------- [CONV3-8/10] 
-        x = path_1_s1 + path_2_s1 # [384, 14, 14] --------- [PLUS-1/2]
+        path_1 = F.relu(self.conv3_3(x)) # [256, 28, 28] --------- [CONV3-6/10] 
+        path_2 = F.relu(self.conv5_3(x)) # [256, 28, 28] 
+        x = path_1 + path_2 # [256, 28, 28] --------- [PLUS-1/2]
+        x = self.maxpool2(x)   # [256, 14, 14]  --------- [MAX_POOL-1/1]
 
-        path_1_s1 = F.relu(self.conv3_5(x)) # [512, 14, 14] --------- [CONV3-9/10] 
-        path_2_s1 = F.relu(self.conv3_5(x)) # [512, 14, 14] --------- [CONV3-10/10] 
+        path_1 = F.relu(self.conv3_4(x)) # [128, 14, 14] --------- [CONV3-7/10] 
+        path_2 = F.relu(self.conv5_4(x)) # [128, 14, 14] 
+        
+        x = path_1 + path_2 # [128, 14, 14] --------- [PLUS-2/2]
+        x = self.avgpool1(x)  # [128, 7, 7] --------- [AVGPOOL-1/2]
+        
+        x1 = F.relu(self.conv3_6(x)) # [256, 7, 7]  --------- [CONV3-8/10] 
+        x2 = F.relu(self.conv5_6(x)) # [256, 7, 7]  
+        x1 = F.relu(self.conv3_7(x1)) # [512, 7, 7]  --------- [CONV3-9/10] 
+        x1 = F.relu(self.conv3_8(x1)) # [512, 7, 7]  --------- [CONV3-9/10] 
+        x2 = F.relu(self.conv5_7(x2)) # [512, 7, 7]  
+        x = torch.cat([x1, x2], dim=1) # [1024, 7, 7] --------- [CAT-2/2]
 
-        x = path_1_s1 + path_2_s1 # [512, 14, 14] --------- [PLUS-2/2]
-        x = self.avgpool1(x)  # [512, 7, 7] --------- [AVGPOOL-1/2]
-
-        x = F.relu(self.conv3_6(x)) # [768, 7, 7]  --------- [CONV3-11/10] 
-        x = F.relu(self.conv3_7(x)) # [1024, 7, 7]  --------- [CONV3-12/10] 
-
+        
         x = self.avgpool2(x)   # [1024, 1, 1] --------- [AVGPOOL-2/2]
 
         print(x.shape)

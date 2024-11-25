@@ -16,8 +16,8 @@ class Net(nn.Module):
         super(Net, self).__init__()
         # Initial convolution
         self.initial_conv = nn.Conv2d(3, 32, kernel_size=7, stride=1, padding=3)
-        self.initial_conv_down_1 = nn.Conv2d(32, 32, kernel_size=5, stride=2, padding=2)
         self.initial_conv_down_2 = nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=2)
+        self.initial_conv_down_1 = nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=2)
 
         # 10 conv3x3 layers (32 filters each)
         self.conv3_1 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
@@ -71,8 +71,8 @@ class Net(nn.Module):
         
     def forward(self, x):
         x = self.initial_conv(x)  # 32 channels
-        x = self.initial_conv_down_1(x)  # 32 channels  # [32, 112, 112]
         x = self.initial_conv_down_2(x)  # 32 channels # [32, 56, 56]
+        x = self.initial_conv_down_1(x)  # 32 channels # [32, 56, 56]
 
         x1 = F.relu(self.conv3_1(x))    # [64, 224, 224]
         x1 = F.relu(self.conv5_1(x1))   # [128, 224, 224]
