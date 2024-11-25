@@ -46,7 +46,7 @@ parser.add_argument('-r', '--data', type=str, default='./dataset', help='path to
 #                     help='model architecture: ' +
 #                         ' | '.join(model_names) +
 #                         ' (default: MAFCV1)')
-parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
+parser.add_argument('-j', '--workers', default=8, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
 parser.add_argument('--epochs', default=100, type=int, metavar='N',
                     help='number of total epochs to run')
@@ -54,7 +54,7 @@ parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
 #parser.add_argument('-b', '--batch-size', default=256, type=int,
 # Nếu chạy ko nổi giảm xuống có thể tới 4
-parser.add_argument('-b', '--batch-size', default=128, type=int,
+parser.add_argument('-b', '--batch-size', default=64, type=int,
                     metavar='N', help='mini-batch size (default: 256)')
 # 
 parser.add_argument('--lr', '--learning-rate', default=0.1, type=float,
